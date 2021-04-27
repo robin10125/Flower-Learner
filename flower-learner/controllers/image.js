@@ -34,7 +34,7 @@ function upload(req, res, next) {
     if (err) return console.log(err);
     let body = JSON.parse(response.body)
     console.log(body)
-    // Mongoose query here to save to db
+    // enter Mongoose query here to save to db
     // body.data.link points to imgur url
     
   })
