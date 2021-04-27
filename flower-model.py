@@ -87,23 +87,6 @@ history = model.fit(
   epochs=epochs
 )
 
-sunflower_url = "https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/Sunflower_sky_backdrop.jpg/541px-Sunflower_sky_backdrop.jpg"
-sunflower_path = tf.keras.utils.get_file('Sunflower_sky_backdrop', origin=sunflower_url)
-
-img = keras.preprocessing.image.load_img(
-    sunflower_path, target_size=(img_height, img_width)
-)
-img_array = keras.preprocessing.image.img_to_array(img)
-img_array = tf.expand_dims(img_array, 0) # Create a batch
-
-predictions = model.predict(img_array)
-score = tf.nn.softmax(predictions[0])
-
-print(
-    "This image most likely belongs to {} with a {:.2f} percent confidence."
-    .format(class_names[np.argmax(score)], 100 * np.max(score))
-)
-
-save_model(model, './saved_model')
+model.save('saved_model/my_model')
 
 
