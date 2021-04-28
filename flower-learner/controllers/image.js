@@ -5,7 +5,7 @@ const fs = require('fs');
 
 module.exports = {
     create,
-   
+    upload
 }
 
 async function base64_encode(image) {
@@ -14,7 +14,7 @@ async function base64_encode(image) {
     // convert binary data to base64 encoded string
     return bitmap.toString('base64');
   }
-function upload(req, res, next) {
+async function upload(req, res, next) {
 
   let image = base64_encode(req.files.image.file);
 
@@ -36,7 +36,12 @@ function upload(req, res, next) {
     console.log(body)
     // enter Mongoose query here to save to db
     // body.data.link points to imgur url
-    
+    try {
+        await ImageModel.create({link: req.body.data.link, fileName: req.body.data.id})
+        res.status(200).json('ok')
+     } catch(err) {
+        res.status(400).json(err);
+     }
   })
 }
 async function create(req, res) {
