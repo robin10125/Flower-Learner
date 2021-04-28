@@ -13,9 +13,10 @@ function base64_encode(image) {
     // convert binary data to base64 encoded string
     return bitmap.toString('base64');
   }
+
 async function upload(req, res, next) {
 
-  console.log('upload initiated')
+  console.log('REQUEST FILES IMAGE: ', req.body)
 
   let image = base64_encode(req.files.image.file);
 
@@ -31,14 +32,14 @@ async function upload(req, res, next) {
     },
   };
 
-  request(options, function(err, response) {
+  request(options, async function(err, response) {
     if (err) return console.log(err);
     let body = JSON.parse(response.body)
     console.log(body)
     // enter Mongoose query here to save to db
     // body.data.link points to imgur url
     try {
-        ImageModel.create({link: req.body.data.link, fileName: req.body.data.id})
+        await ImageModel.create({link: req.body.data.link, fileName: req.body.data.id})
         res.status(200).json('ok')
      } catch(err) {
         res.status(400).json(err);

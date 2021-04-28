@@ -15,24 +15,26 @@ export default class Form extends Component {
         loaded: 0,
     });
   }   
-  handleSubmit = async () => {
-    console.log('handleSubmit initiated')
+  handleSubmit = async (evt) => {
+    evt.preventDefault()
+
     // First we build the body
     let body = { image: this.state.image }
+    
     // We need an options object for our fetch call
     let options = {
       method: "POST",
-      headers: {
+      Headers: {
         "Content-Type": "application/json"
       },
       body: JSON.stringify(body)
     };
-    
+    console.log('handleSubmit initiated, body: ', body)
     // Now for the fetch call
     await fetch("/api/image", options)
       .then(res => res.json())
       .then(this.setState({ image: null }))
-     
+      .catch(error => {console.error("Error:", error)})
   }
   render() {
     return(
