@@ -14,14 +14,14 @@ export default class Test extends Component {
     let body = { text: this.state.text }
     let options = {
       method: "POST",
-      Headers: {
+      headers: {
         "Content-Type": "application/json"
       },
       body: JSON.stringify(body)
-    };
-    console.log('handleSubmit initiated, body: ', body)
+    }
     // Now for the fetch call
     await fetch("/api/test", options)
+      .then(console.log(options))
       .then(res => res.json())  
       .then(this.setState({ text: ''}))
       .catch(error => {console.error("Error:", error)})

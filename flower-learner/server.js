@@ -3,15 +3,15 @@ const path = require('path');
 const favicon = require('serve-favicon');
 const logger = require('morgan');
 
-var bb = require('express-busboy')
+//var bb = require('express-busboy')
 
 require('dotenv').config()
 require('./config/database.js')
 const app = express();
 
-bb.extend(app, { 
-    upload: true
-  });
+//bb.extend(app, { 
+   // upload: true
+//});
 
 app.use(logger('dev'));
 app.use(express.json());
