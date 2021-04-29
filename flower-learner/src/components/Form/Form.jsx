@@ -1,9 +1,10 @@
 // components/Form/Form.jsx
 import { Component } from 'react';
+import axios from 'axios';
 
 export default class Form extends Component {
   state = {
-    image: null
+    image: null,
   };
 
   checkState = () => {
@@ -14,27 +15,34 @@ export default class Form extends Component {
         [evt.target.name]: evt.target.files[0],
         loaded: 0,
     });
-  }   
+  }  
+   
   handleSubmit = async (evt) => {
     evt.preventDefault()
 
-    // First we build the body
-    let body = { image: this.state.image }
-    
-    // We need an options object for our fetch call
-    let options = {
-      method: "POST",
-      Headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(body)
-    };
-    console.log('handleSubmit initiated, body: ', body)
-    // Now for the fetch call
-    await fetch("/api/image", options)
-      .then(res => res.json())
-      .then(this.setState({ image: null }))
-      .catch(error => {console.error("Error:", error)})
+    const formData = new FormData()
+    formData.append('image', this.state.image, this.state.image.name )
+     
+    //axios.post("/api/image", formData, config)
+    axios({
+      method: "post",
+      url: "api/image",
+      data: formData,
+      headers: { "Content-Type": "multipart/form-data" },
+    })
+      .then(function (response) {
+        //handle success
+        console.log(response);
+      })
+      .catch(function (response) {
+        //handle error
+        console.log(response);
+      });
+      
+    /*await fetch("/api/image", options)
+      .then(res => res.json())  
+      .then(this.setState({ text: ''}))
+      .catch(error => {console.error("Error:", error)})*/
   }
   render() {
     return(

@@ -7,18 +7,18 @@ module.exports = {
     upload
 }
 
-function base64_encode(image) {
+async function base64_encode(image) {
     // read binary data
-    var bitmap = fs.readFileSync(image);
+    var bitmap =  fs.readFileSync(image);
     // convert binary data to base64 encoded string
     return bitmap.toString('base64');
   }
 
 async function upload(req, res, next) {
 
-  console.log('REQUEST FILES IMAGE: ', req.body)
-
-  let image = base64_encode(req.files.image.file);
+  console.log('REQUEST FILES IMAGE: ', req.files)
+  //ERROR: req.files is undefined
+  let image = base64_encode(req.files.file);
 
   const options = {
     method: 'POST',
