@@ -6,13 +6,11 @@ const upload = multer({ dest: "uploads/" });
 
 router.post('/', upload.single("image"), uploadFiles)
 
-function uploadFiles(req, res) {
-    console.log(req.file.path)  
-    res.json({ filePath: req.file.path, fileName: req.file.filename });
-        
-    console.log('req.file: ', req.file)
-    
-    //upload to Imgur
+function uploadFiles(req, res) {  
+    //res.json({ filePath: req.file.path, fileName: req.file.filename });
+    console.log('Response: ', res, " response over")
+    console.log('Response file: ', res.file, " response over")
+    res.json({ url: req.file.path, name: req.file.filename });
     
 }
 

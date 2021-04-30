@@ -5,12 +5,11 @@ import axios from 'axios';
 export default class Form extends Component {
   state = {
     image: null,
+    serverImageName: '',
+    serverImageUrl: ''
   };
 
-  checkState = () => {
-      console.log(this.state.image)
-      console.log("state: ", this.state)
-  }
+ 
   handleChange = (evt) => {
     this.setState({ 
         image: evt.target.files[0],
@@ -25,7 +24,6 @@ export default class Form extends Component {
     let fileName = ''
 
     const formData = new FormData()
-    const formData2 = new FormData()
     formData.append('image', this.state.image )
     //axios.post("/api/image", formData, config)
     axios({
@@ -35,30 +33,36 @@ export default class Form extends Component {
       //possible error content type
       headers: { "Content-Type": "multipart/form-data" },
     })
-      .then(function (response) {
-        console.log(response);
-        fileUrl = response.fileUrl
-        fileName = response.fileName
-        formData2.append('url', fileUrl)
-        formData2.append('name', fileName)
+      .then( (response) => {
+        console.log('response', response);
+        fileUrl = response.data.url
+        fileName = response.data.name
+        console.log(fileUrl)
+
+        this.setState({
+          serverImageName: fileName,
+          serverImageUrl: fileUrl
+        })
       })
-    .then(
-    //post to django server
-    axios({
+  }
+
+  predict = async () => {
+    
+    let body = {name: this.state.fileName, url: this.state.fileUrl}
+    let options = {
       method: "POST",
-      url: "http://127.0.0.1:8000/post/",
-      data: formData2,
-      //possible error content type
-      headers: { "Content-Type": "multipart/form-data" },
-    })
-      .then(function (response) {
-        console.log(response);
-      })
-      .catch(errors => console.log(errors))
-    )
-    /*await fetch("http://127.0.0.1:8000/post/", options)
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(body)
+      
+    }  
+    await fetch("http://127.0.0.1:8000/post/", options)
         .then(res => res.json())  
-        .catch(error => {console.error("Error:", error)}))*/
+        .catch(error => {console.error("Error:", error)})
+}
+  checkState = () => {
+    console.log(this.state)
   }
   render() {
     return(
@@ -69,6 +73,7 @@ export default class Form extends Component {
         <input type="file" name='image' onChange={this.handleChange}/>
         <br/>
         <button onClick={this.handleSubmit}>Submit!</button>
+        <button onClick={this.predict}>Make prediction</button>
         <button onClick={this.checkState}>Check State</button>
       </div>
     )
