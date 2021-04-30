@@ -9,3 +9,6 @@ To make it work, I should restart the app from scratch using TensorFlow for Reac
 Technologies Used: React, TensorFlow, Python, Node.js, Express, JS, HTML, CSS
 
 Made by Robin Hylands
+
+For Aidan, Alex:
+     See flower-model.py and flower-predict.py for machine learning code.  Run flower-model to make a new model, and run flower-predict.py on a photo to get a prediction (change photo url and filename variables, then run).  The flower_predict folder holds the Django server, and flower-learner holds the React and Express Node.js server.

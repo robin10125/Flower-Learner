@@ -9,6 +9,7 @@ export default class Test extends Component {
   handleChange = (e) => {
     this.setState({ [e.target.name]: e.target.value });
   }   
+  
   handleSubmit = async (evt) => {
     evt.preventDefault() 
     let body = { text: this.state.text }
@@ -19,13 +20,14 @@ export default class Test extends Component {
       },
       body: JSON.stringify(body)
     }
-    // Now for the fetch call
+    
     await fetch("/api/test", options)
       .then(console.log(options))
       .then(res => res.json())  
       .then(this.setState({ text: ''}))
       .catch(error => {console.error("Error:", error)})
   }
+
   render() {
     return(
       <div>

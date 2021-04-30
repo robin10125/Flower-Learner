@@ -8,8 +8,8 @@ export default class Form extends Component {
     serverImageName: '',
     serverImageUrl: ''
   };
-
  
+  //set file to state image
   handleChange = (evt) => {
     this.setState({ 
         image: evt.target.files[0],
@@ -17,20 +17,19 @@ export default class Form extends Component {
     });
   }  
    
+  //post file to express server
   handleSubmit = async (evt) => {
     evt.preventDefault()
-
     let fileUrl = ''
     let fileName = ''
-
     const formData = new FormData()
+
     formData.append('image', this.state.image )
-    //axios.post("/api/image", formData, config)
+   
     axios({
       method: "post",
       url: "api/image",
       data: formData,
-      //possible error content type
       headers: { "Content-Type": "multipart/form-data" },
     })
       .then( (response) => {
@@ -46,6 +45,7 @@ export default class Form extends Component {
       })
   }
 
+  //sends post to Django server
   predict = async () => {
     
     let body = {name: this.state.fileName, url: this.state.fileUrl}
@@ -54,17 +54,20 @@ export default class Form extends Component {
       headers: {
         "Content-Type": "application/json"
       },
-      body: JSON.stringify(body),
-    
-      
+      body: JSON.stringify(body),  
     }  
+
+    //fetch Django server throough CORS proxy set up on Heroku
     await fetch("https://stark-forest-67198.herokuapp.com/http://127.0.0.1:8000/post/", options)
         .then(res => res.json())  
         .catch(error => {console.error("Error:", error)})
 }
+
+  //check state elements for debugging
   checkState = () => {
     console.log(this.state)
   }
+  
   render() {
     return(
       <div>

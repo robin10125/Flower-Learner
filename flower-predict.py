@@ -38,8 +38,8 @@ def flower_predict(flowerUrl, imgName):
 
     return "This image most likely belongs to {} with a {:.2f} percent confidence.".format(class_names[np.argmax(score)], 100 * np.max(score))
 
-flowerUrl = 'https://upload.wikimedia.org/wikipedia/commons/2/28/Red_rose.jpg'
-flowerName = 'Red_rose'
+flowerUrl = 'https://s3.amazonaws.com/newhobbyfarms.com/wp-content/uploads/2015/06/26115642/12sunflowers_800.jpg'
+flowerName = '12sunflowers_800'
 '''
 1452748028782, https://hgtvhome.sndimg.com/content/dam/images/grdn/fullset/2013/3/19/0/dsc01408.JPG.rend.hgtvcom.616.462.suffix/1452748028782.jpeg
 Oxeye-daisy-flower_3859338724_o, https://mk0cabiorg09m8anlv96.kinstacdn.com/wp-content/uploads/project-images/Oxeye-daisy-flower_3859338724_o.jpg
