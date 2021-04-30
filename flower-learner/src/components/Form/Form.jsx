@@ -25,6 +25,7 @@ export default class Form extends Component {
     let fileName = ''
 
     const formData = new FormData()
+    const formData2 = new FormData()
     formData.append('image', this.state.image )
     //axios.post("/api/image", formData, config)
     axios({
@@ -38,19 +39,22 @@ export default class Form extends Component {
         console.log(response);
         fileUrl = response.fileUrl
         fileName = response.fileName
+        formData2.append('url', fileUrl)
+        formData2.append('name', fileName)
       })
     .then(
     //post to django server
     axios({
-      method: "post",
+      method: "POST",
       url: "http://127.0.0.1:8000/post/",
-      data: {url: fileUrl, name: fileName},
+      data: formData2,
       //possible error content type
       headers: { "Content-Type": "multipart/form-data" },
     })
       .then(function (response) {
         console.log(response);
       })
+      .catch(errors => console.log(errors))
     )
     /*await fetch("http://127.0.0.1:8000/post/", options)
         .then(res => res.json())  

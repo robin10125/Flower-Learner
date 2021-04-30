@@ -4,7 +4,8 @@ import json
 # Create your views here.
 
 def predict(request):
-    print(request)
-    prediction = flower_predict(request.data.url, request.data.name)
+    print('request url: ', request.POST.get('url'))
+    
+    prediction = flower_predict(request.POST.get('url'), request.POST.get('name'))
     prediction = json.dumps(prediction)
     return prediction

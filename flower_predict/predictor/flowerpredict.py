@@ -12,7 +12,7 @@ import sys
 def flower_predict(flowerUrl, imgName):
 
     #load model from save file
-    model = keras.models.load_model('saved_model/my_model')
+    model = keras.models.load_model('my_model')
     #output catagories
     class_names = ['daisy', 'dandelion', 'roses', 'sunflowers', 'tulips']
 
