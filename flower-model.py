@@ -3,12 +3,11 @@ import numpy as np
 import os
 import PIL
 import tensorflow as tf
-
 from tensorflow import keras
 from tensorflow.keras import layers
 from tensorflow.keras.models import Sequential, save_model, load_model
-
 import pathlib
+import tensorflowjs as tfjs
 
 #get dataset
 dataset_url = "https://storage.googleapis.com/download.tensorflow.org/example_images/flower_photos.tgz"
@@ -86,7 +85,7 @@ history = model.fit(
   validation_data=val_ds,
   epochs=epochs
 )
-
-model.save('saved_model/my_model')
+tfjs.converters.save_keras_model(model, 'flower-learner/saved_model_js')
+#model.save('saved_model/my_model')
 
 

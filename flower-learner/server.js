@@ -2,16 +2,14 @@ const express = require('express');
 const path = require('path');
 const favicon = require('serve-favicon');
 const logger = require('morgan');
+const multer = require("multer");
+const bodyParser = require('body-parser')
 
-//var bb = require('express-busboy')
+const upload = multer({ dest: "uploads/" });
 
 require('dotenv').config()
 require('./config/database.js')
 const app = express();
-
-//bb.extend(app, { 
-   // upload: true
-//});
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -19,6 +17,19 @@ app.use(express.json());
 // to serve from the production 'build' folder
 app.use(favicon(path.join(__dirname, 'build', 'favicon.ico')));
 app.use(express.static(path.join(__dirname, 'build')));
+
+app.use(bodyParser.urlencoded({ extended: false }))
+// parse application/json
+app.use(bodyParser.json())
+
+app.post("/upload_files", upload.single("image"), uploadFiles);
+
+function uploadFiles(req, res) {
+    console.log(req.body);
+    console.log(req.file);
+    res.json({ message: "Successfully uploaded files" });
+}
+
 
 // Put API routes here, before the "catch all" route
 app.use('/api/test', require('./routes/api/test'))

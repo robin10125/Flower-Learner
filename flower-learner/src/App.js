@@ -9,7 +9,6 @@ export default class App extends Component {
       <main className="App">
         <Form />
         <hr/>
-        <Test />
       </main>
     )
   }

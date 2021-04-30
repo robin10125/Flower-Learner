@@ -1,7 +1,7 @@
 const ImageModel = require('../models/image.js'); 
 const request = require('request');
 const fs = require('fs');
-
+const IncomingForm = require('formidable').IncomingForm
 
 module.exports = {
     upload

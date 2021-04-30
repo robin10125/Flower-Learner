@@ -9,10 +9,11 @@ export default class Form extends Component {
 
   checkState = () => {
       console.log(this.state.image)
+      console.log("state: ", this.state)
   }
   handleChange = (evt) => {
     this.setState({ 
-        [evt.target.name]: evt.target.files[0],
+        image: evt.target.files[0],
         loaded: 0,
     });
   }  
@@ -20,29 +21,40 @@ export default class Form extends Component {
   handleSubmit = async (evt) => {
     evt.preventDefault()
 
+    let fileUrl = ''
+    let fileName = ''
+
     const formData = new FormData()
-    formData.append('image', this.state.image, this.state.image.name )
-     
+    formData.append('image', this.state.image )
     //axios.post("/api/image", formData, config)
     axios({
       method: "post",
       url: "api/image",
       data: formData,
+      //possible error content type
       headers: { "Content-Type": "multipart/form-data" },
     })
       .then(function (response) {
-        //handle success
+        console.log(response);
+        fileUrl = response.fileUrl
+        fileName = response.fileName
+      })
+    .then(
+    //post to django server
+    axios({
+      method: "post",
+      url: "http://127.0.0.1:8000/post/",
+      data: {url: fileUrl, name: fileName},
+      //possible error content type
+      headers: { "Content-Type": "multipart/form-data" },
+    })
+      .then(function (response) {
         console.log(response);
       })
-      .catch(function (response) {
-        //handle error
-        console.log(response);
-      });
-      
-    /*await fetch("/api/image", options)
-      .then(res => res.json())  
-      .then(this.setState({ text: ''}))
-      .catch(error => {console.error("Error:", error)})*/
+    )
+    /*await fetch("http://127.0.0.1:8000/post/", options)
+        .then(res => res.json())  
+        .catch(error => {console.error("Error:", error)}))*/
   }
   render() {
     return(
@@ -50,7 +62,7 @@ export default class Form extends Component {
         <div id = "image-container">
             <img href = ''></img>
         </div>
-        <input type="file" name='image' onChange={this.handleChange}></input>
+        <input type="file" name='image' onChange={this.handleChange}/>
         <br/>
         <button onClick={this.handleSubmit}>Submit!</button>
         <button onClick={this.checkState}>Check State</button>
