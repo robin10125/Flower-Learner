@@ -54,10 +54,11 @@ export default class Form extends Component {
       headers: {
         "Content-Type": "application/json"
       },
-      body: JSON.stringify(body)
+      body: JSON.stringify(body),
+    
       
     }  
-    await fetch("http://127.0.0.1:8000/post/", options)
+    await fetch("https://stark-forest-67198.herokuapp.com/http://127.0.0.1:8000/post/", options)
         .then(res => res.json())  
         .catch(error => {console.error("Error:", error)})
 }

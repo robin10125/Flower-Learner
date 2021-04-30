@@ -85,7 +85,5 @@ history = model.fit(
   validation_data=val_ds,
   epochs=epochs
 )
-tfjs.converters.save_keras_model(model, 'flower-learner/saved_model_js')
-#model.save('saved_model/my_model')
-
-
+#tfjs.converters.save_keras_model(model, 'flower-learner/saved_model_js')
+model.save('saved_model/my_model')
